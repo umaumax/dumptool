@@ -25,6 +25,9 @@ g++ -std=c++11 main.cpp -o dumptool
 ## TODO
 * write test
 * write doc
+* 表示出力形式の指定
+* サイズ指定に，読み込んだ変数を利用できるように
+  * 数値を演算可能とする
 
 ## NOTE
 ### dummy bin file
