@@ -10,6 +10,22 @@ g++ -std=c++11 main.cpp -o dumptool
 ./dumptool 'string,char[3],int8_t' dummy.bin
 ```
 
+## doc
+* `,`区切りでformatを記述する
+* formatは`:`区切りでnameとtypeを指定する(nameは省略可能)
+  * typeは数値を設定することができる
+    * `char[4]`
+* formatに指定可能なtypeの一覧
+* char,int,float,double
+* int8_t,uint8_t,int16_t,uint16_t,int32_t,uint32_t,int64_t,uint64_t
+* string
+* offset: 指定したoffsetに移動する
+* skip: 表示を行わずにskipする
+
+## TODO
+* write test
+* write doc
+
 ## NOTE
 ### dummy bin file
 ```

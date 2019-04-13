@@ -146,12 +146,6 @@ Status Print(const std::string& format, const std::vector<uint8_t>& raw) {
     std::string name;
     std::string type;
     int array_size = 1;
-    // std::string first_key;
-    // std::string last_key;
-    // if (keys.size() > 0) {
-    // first_key = keys[0];
-    // last_key  = keys[keys.size() - 1];
-    // }
     if (keys.size() == 1) {
       type = keys[0];
     } else if (keys.size() == 2) {
@@ -164,7 +158,7 @@ Status Print(const std::string& format, const std::vector<uint8_t>& raw) {
     }
 
     std::regex array_regex("^(.*)\\[(.+)\\]$");
-    std::regex int_regex("^[1-9][0-9]*$");
+    std::regex int_regex("^(0|[1-9][0-9]*)$");
     std::smatch m;
     if (std::regex_match(type, m, array_regex)) {
       // NOTE: assign to num_str before target string
@@ -182,6 +176,12 @@ Status Print(const std::string& format, const std::vector<uint8_t>& raw) {
     if (name != "") {
       std::cout << name << ":";
     }
+    if (array_size == 1) {
+      std::cout << type << ":";
+    } else {
+      std::cout << type << "[" << array_size << "]"
+                << ":";
+    }
     for (int i = 0; i < array_size; i++) {
       // NOTE: 現状では，表示した後にサイズ比較を行っている
       // 本来は表示前に比較するべき
@@ -190,6 +190,14 @@ Status Print(const std::string& format, const std::vector<uint8_t>& raw) {
         return dumptool::Status(
             dumptool::StatusCode::kOutOfRangeAccess,
             DUMPTOOL_STREAM_STR("raw data size is " << size));
+      }
+      if (type == "skip") {
+        p += 1;
+        continue;
+      }
+      if (type == "offset") {
+        p = start + array_size;
+        break;
       }
       if (i > 0) {
         std::cout << ", ";
