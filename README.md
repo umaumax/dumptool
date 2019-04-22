@@ -38,6 +38,11 @@ $ hexdump -C dummy.bin
 00000008
 ```
 
+### hexdump exmaple
+```
+echo 012345678 | { printf "%8s|%8s|%8s|%11s|%4s\n" "offset" "float32" "int32" "hex" "char"; printf '%*s\n' "43" '-' | tr ' ' '-'; hexdump -e '1/4 "%08_ax|%08f|"' -e '1/4 "%08X|"' -e '4/1 "%02X "' -e '1/4 "|"' -e '4/1 "%_p"' -e '"\n"'; }
+```
+
 ## FYI
 * [Google C\+\+ スタイルガイド\(日本語全訳\) 列挙型の名前]( https://ttsuki.github.io/styleguide/cppguide.ja.html#Enumerator_Names )
 * [Can a C\+\+ enum class have methods? \- Stack Overflow]( https://stackoverflow.com/questions/21295935/can-a-c-enum-class-have-methods )
