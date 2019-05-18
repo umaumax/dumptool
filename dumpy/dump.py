@@ -5,7 +5,7 @@ import argparse
 import sys
 
 
-def parse_binary(input_file, binary_type, offset):
+def parse_binary(input_file, binary_type, offset, loop_number):
     with open(input_file, "rb") as f:
         data = f.read()
         if binary_type == 'png':
@@ -15,7 +15,7 @@ def parse_binary(input_file, binary_type, offset):
             return 0
         if binary_type == 'raw':
             fmt = 'fffi'
-            n = 16  # TODO: don't use const value
+            n = loop_number
             for i in range(n):
                 ret = struct.unpack_from(fmt, data, offset)
                 print('(x,y,z,v)', ret)
@@ -30,18 +30,20 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--type', default='', type=str, help='type e.g. ' + ', '.join(binary_types))
     parser.add_argument('-o', '--offset', default=0, type=int, help='file head offset')
+    parser.add_argument('-n', '--number', default=-1, type=int, help='loop number')
     parser.add_argument('input_file', nargs=1, help='input filepath')
 
     args, extra_args = parser.parse_known_args()
     offset = args.offset
     binary_type = args.type
+    loop_number = args.loop_number
     input_file = args.input_file[0]
     if binary_type not in binary_types:
         print('"{}" is not supported'.format(binary_type))
         print('supported types: [{}]'.format(', '.join(binary_types)))
         sys.exit(1)
 
-    ret = parse_binary(input_file, binary_type, offset)
+    ret = parse_binary(input_file, binary_type, offset, loop_number)
     sys.exit(ret)
 
 
