@@ -29,7 +29,7 @@ def main():
     binary_types = ['png', 'raw']
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--type', default='', type=str, help='type e.g. ' + ', '.join(binary_types))
-    parser.add_argument('-o', '--offset', default=1, type=int, help='file head offset')
+    parser.add_argument('-o', '--offset', default=0, type=int, help='file head offset')
     parser.add_argument('input_file', nargs=1, help='input filepath')
 
     args, extra_args = parser.parse_known_args()
